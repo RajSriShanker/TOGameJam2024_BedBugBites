@@ -5,47 +5,75 @@ using UnityEngine;
 public class ShootController : MonoBehaviour
 {
     public int ammoCount;
-    public float projectileSpeed = 10f;
     public Transform shootLocation;
+    public Transform PivotLocation;
 
-    GameObject projectileGameObject;
+    public GameObject projectile;
 
-    [SerializeField] ChildManager childManager;
+    ChildManager childManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        childManager = GameObject.Find("Child Manager").GetComponent<ChildManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
         ammoCount = childManager.numberOfChildren.Count;
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Shoot();
+            childManager.RemoveFirst();
+        }
     }
 
     void FixedUpdate()
     {
-        if (Input.GetButtonDown("Fire1"))
-        {
-            Shoot();
-        }
+        Aim();
     }
 
     void Shoot()
     {
+        if (ammoCount < 0)
+        {
+            Debug.Log("No ammo");
+            return;
+        }
+
         if (ammoCount > 0)
         {
-            projectileGameObject = childManager.numberOfChildren[0];
-            projectileGameObject.GetComponent<ChildController>().isUsedAsProjectile = true;
-            projectileGameObject.GetComponent<ChildController>().isPickedUp = false;
-            projectileGameObject.GetComponent<BoxCollider2D>().enabled = true;
-            projectileGameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
-            projectileGameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-            projectileGameObject.transform.position = shootLocation.position;
-            projectileGameObject.transform.localScale = new Vector3(1, 1, 1);
-            projectileGameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(projectileSpeed, 0);
-            childManager.numberOfChildren.RemoveAt(0);
+            Instantiate(projectile, shootLocation.position, shootLocation.rotation);
         }
+    }
+
+    void Aim()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 10;
+        Vector3 objectPos = Camera.main.WorldToScreenPoint(PivotLocation.position);
+        mousePos.x = mousePos.x - objectPos.x;
+        mousePos.y = mousePos.y - objectPos.y;
+        float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg - 90;
+
+        if (angle > 45 && angle < 135)
+        {
+            PivotLocation.rotation = Quaternion.Euler(new Vector3(0, 0, 90));
+        }
+        else if (angle < -45 && angle > -135)
+        {
+            PivotLocation.rotation = Quaternion.Euler(new Vector3(0, 0, -90));
+        }
+        else if (angle > 135 || angle < -135)
+        {
+            PivotLocation.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
+        }
+        else if (angle < 45 && angle > -45)
+        {
+            PivotLocation.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        }
+
     }
 }
