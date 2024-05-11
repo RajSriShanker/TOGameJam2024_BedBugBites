@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - Platform
+  - Child
+  - Projectile
   layers:
   - Default
   - TransparentFX

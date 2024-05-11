@@ -138,8 +138,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 815454441
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -901163369, guid: a340ad6f5123d5144a27ab398eb6fba8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -161,7 +161,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 2747237670828292003}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 83403894fedb2f84095c93362fb16ae2, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -275,6 +275,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3469018925971860052}
+  - {fileID: 8741473627154812636}
   m_Father: {fileID: 6525855700771814875}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4542841315892040567
@@ -315,8 +316,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 67378783
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -774622402, guid: 4fa4812f20a7d8b4982097e3cbf3ad52, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -344,7 +345,8 @@ MonoBehaviour:
   ammoCount: 0
   shootLocation: {fileID: 3469018925971860052}
   PivotLocation: {fileID: 6525855700771814875}
-  childManager: {fileID: 0}
+  projectile: {fileID: 624025757836432144, guid: 2172095b9bc450a4ba9f67abcddffcd8, type: 3}
+  childManager: {fileID: 3877138927996059182, guid: f6a0f2aa32991a74c894ae1db90b893e, type: 3}
 --- !u!1 &2998394423372250296
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,6 +374,37 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.04, y: 0.294, z: 0}
   m_LocalScale: {x: 0.24841633, y: 0.24841633, z: 0.24841633}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3695712631254103129}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6297490717236865699
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8741473627154812636}
+  m_Layer: 0
+  m_Name: Ammo Load Loaction
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8741473627154812636
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6297490717236865699}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.26, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3695712631254103129}

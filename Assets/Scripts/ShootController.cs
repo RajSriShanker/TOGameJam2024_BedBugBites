@@ -7,14 +7,15 @@ public class ShootController : MonoBehaviour
     public int ammoCount;
     public Transform shootLocation;
     public Transform PivotLocation;
-    public Transform ammoLoadLocation;
 
-    [SerializeField] ChildManager childManager;
+    public GameObject projectile;
+
+    ChildManager childManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        childManager = GameObject.Find("Child Manager").GetComponent<ChildManager>();
     }
 
     // Update is called once per frame
@@ -26,11 +27,6 @@ public class ShootController : MonoBehaviour
         {
             Shoot();
         }
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            LoadAmmo();
-        }
     }
 
     void FixedUpdate()
@@ -40,24 +36,16 @@ public class ShootController : MonoBehaviour
 
     void Shoot()
     {
-        if (ammoCount > 0)
-        {
-
-        }
-    }
-
-    void LoadAmmo()
-    {
         if (ammoCount < 0)
         {
-            Debug.Log("No ammo to load");
+            Debug.Log("No ammo");
             return;
         }
 
-        Debug.Log("Loading Ammo");
-        GameObject ammo = childManager.numberOfChildren[0];
-        ammo.transform.position = ammoLoadLocation.position;
-
+        if (ammoCount > 0)
+        {
+            Instantiate(projectile, shootLocation.position, shootLocation.rotation);
+        }
     }
 
     void Aim()
