@@ -18,11 +18,14 @@ public class ChildController : MonoBehaviour
     ChildManager childManager;
     [SerializeField] int index;
 
+    SpriteRenderer spriteRenderer;
+
     // Start is called before the first frame update
     void Start()
     {
         deathLocation = GameObject.Find("Death Location").transform;
         childManager = GameObject.Find("Child Manager").GetComponent<ChildManager>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         localScale = transform.localScale;
         isUsedAsProjectile = false;
         isPickedUp = false;
@@ -52,10 +55,15 @@ public class ChildController : MonoBehaviour
 
     void Follow()
     {
+        if (target == null)
+        {
+            return;
+        }
+
         EnsureGameObjectIsInList();
         index = childManager.numberOfChildren.IndexOf(gameObject);
-        addtionalXOffset = index * 0.5f;
-        float adjustedXOffset = followXOffset + addtionalXOffset;
+        float indexAdjustement = index * addtionalXOffset;
+        float adjustedXOffset = followXOffset + indexAdjustement;
 
         if (target.localScale.x < 0)
         {
@@ -78,16 +86,22 @@ public class ChildController : MonoBehaviour
         isUsedAsProjectile = true;
         transform.position = deathLocation.position;
         isPickedUp = false;
-        target = null;
+        spriteRenderer.enabled = false;
+    }
+
+    public void Follower()
+    {
+        isPickedUp = true;
+        isUsedAsProjectile = false;
+        Follow();
+        spriteRenderer.enabled = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player") && !isPickedUp)
         {
-            isPickedUp = true;
-            isUsedAsProjectile = false;
-            childManager.AddToList();
+            Follower();
             target = collision.gameObject.transform;
         }
     }

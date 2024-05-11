@@ -26,6 +26,7 @@ public class ShootController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Shoot();
+            childManager.RemoveFirst();
         }
     }
 

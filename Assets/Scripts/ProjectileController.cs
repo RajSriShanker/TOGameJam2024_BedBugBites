@@ -8,9 +8,16 @@ public class ProjectileController : MonoBehaviour
 
     Rigidbody2D projectileRB;
 
+    ChildManager childManager;
+
+    Transform deathLocation;
+
     // Start is called before the first frame update
     void Start()
     {
+        childManager = GameObject.Find("Child Manager").GetComponent<ChildManager>();
+        deathLocation = GameObject.Find("Death Location").transform;
+
         projectileRB = GetComponent<Rigidbody2D>();
         projectileRB.velocity = transform.up * projectileSpeed;
     }
@@ -29,12 +36,35 @@ public class ProjectileController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag != "Child" || other.tag != "Projectile")
+        if (other.tag == "Toaster" && childManager.numberOfProjectileChildren.Count > 0)
+        {
+            var childController = childManager.numberOfProjectileChildren[0].GetComponent<ChildController>();
+            if (childController != null)
+            {
+                childController.Follower();
+            }
+            childManager.numberOfProjectileChildren.RemoveAt(0);
+            DisableProjectile();
+            return;
+        }
+
+        if (other.tag == "Ground" || other.tag == "Platform")
         {
             projectileRB.velocity = -projectileRB.velocity;
             FlipSprite();
         }
 
-        return;
+        if (other.tag == "Player")
+        {
+            Debug.Log("Player hit");
+            return;
+        }
+    }
+
+    void DisableProjectile()
+    {
+        transform.position = deathLocation.position;
+        projectileRB.velocity = Vector2.zero;
+        gameObject.SetActive(false);
     }
 }

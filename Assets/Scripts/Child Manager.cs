@@ -4,6 +4,7 @@ using UnityEngine;
 public class ChildManager : MonoBehaviour
 {
     public List<GameObject> numberOfChildren = new List<GameObject>();
+    public List<GameObject> numberOfProjectileChildren = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -20,5 +21,15 @@ public class ChildManager : MonoBehaviour
     public void AddToList()
     { 
         numberOfChildren.Add(gameObject);
+    }
+
+    public void RemoveFirst()
+    {
+        if (numberOfChildren.Count > 0)
+        {
+            numberOfChildren[0].GetComponent<ChildController>()?.UsedAsProjectile();
+            numberOfProjectileChildren.Add(numberOfChildren[0]);
+            numberOfChildren.RemoveAt(0);
+        }
     }
 }
