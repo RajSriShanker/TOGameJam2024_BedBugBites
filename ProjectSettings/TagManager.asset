@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Ground
   - Platform
+  - Child
+  - Projectile
+  - Toaster
   layers:
   - Default
   - TransparentFX
@@ -42,4 +45,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 195918289
+    locked: 0
+  - name: Midground
+    uniqueID: 815454441
+    locked: 0
+  - name: Foreground
+    uniqueID: 67378783
+    locked: 0
+  - name: UI
+    uniqueID: 2670380101
     locked: 0
