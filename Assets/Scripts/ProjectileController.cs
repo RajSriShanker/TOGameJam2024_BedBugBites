@@ -53,12 +53,6 @@ public class ProjectileController : MonoBehaviour
             projectileRB.velocity = -projectileRB.velocity;
             FlipSprite();
         }
-
-        if (other.tag == "Player")
-        {
-            Debug.Log("Player hit");
-            return;
-        }
     }
 
     void DisableProjectile()

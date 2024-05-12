@@ -1,3 +1,5 @@
+using BarthaSzabolcs.Tutorial_SpriteFlash;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -11,13 +13,22 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 localScale;
 
+    [SerializeField] private float knockBackForce;
+    [SerializeField] private float knockBackTime;
+    [SerializeField] private bool isKnockBacked;
+    private Transform enemyKnockDirection;
+
+    private Collider2D playerCollider;
     private Rigidbody2D playerRB;
+
+    SimpleFlash simpleFlash;
 
     void Start()
     {
         localScale = transform.localScale;
         playerRB = GetComponent<Rigidbody2D>();
-
+        playerCollider = GetComponent<Collider2D>();
+        simpleFlash = GetComponent<SimpleFlash>();
     }
 
     void Update()
@@ -65,6 +76,25 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+    }
+
+    IEnumerator KnockBack()
+    {
+        isKnockBacked = true;
+        Vector2 direction = (transform.position - enemyKnockDirection.position).normalized;
+        playerRB.AddForce(direction * knockBackForce, ForceMode2D.Impulse);
+        simpleFlash.Flash();
+        yield return new WaitForSeconds(knockBackTime);
+        isKnockBacked = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision != null && collision.CompareTag("Projectile") && !isKnockBacked)
+        {
+            enemyKnockDirection = collision.transform;
+            StartCoroutine(KnockBack());
+        }
     }
 
 }
