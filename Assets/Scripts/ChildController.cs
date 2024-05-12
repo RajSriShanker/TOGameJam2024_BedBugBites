@@ -19,6 +19,7 @@ public class ChildController : MonoBehaviour
     [SerializeField] int index;
 
     SpriteRenderer spriteRenderer;
+    Collider2D collider2D;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,7 @@ public class ChildController : MonoBehaviour
         deathLocation = GameObject.Find("Death Location").transform;
         childManager = GameObject.Find("Child Manager").GetComponent<ChildManager>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        collider2D = GetComponent<Collider2D>();
         localScale = transform.localScale;
         isUsedAsProjectile = false;
         isPickedUp = false;
@@ -84,9 +86,10 @@ public class ChildController : MonoBehaviour
      public void UsedAsProjectile()
     { 
         isUsedAsProjectile = true;
-        transform.position = deathLocation.position;
+        //transform.position = deathLocation.position;
         isPickedUp = false;
         spriteRenderer.enabled = false;
+        collider2D.enabled = false; 
     }
 
     public void Follower()
@@ -95,6 +98,7 @@ public class ChildController : MonoBehaviour
         isUsedAsProjectile = false;
         Follow();
         spriteRenderer.enabled = true;
+        collider2D.enabled = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] RectTransform mainMenuPanel;
     [SerializeField] RectTransform levelSelectPanel;
+    [SerializeField] RectTransform LevelButtons;
 
     [SerializeField] Button startButton;
     [SerializeField] Button levelSelectButton;
@@ -17,6 +18,9 @@ public class GameController : MonoBehaviour
     [SerializeField] Vector2 disabledLocation = new Vector2(-982, 0);
 
     [SerializeField] float uiMoveSpeed = 0.5f;
+    
+    public bool isRestarting = false;
+    public int restartDelay = 1;
 
     ChildManager childManager;
     SoundController soundController;
@@ -53,6 +57,7 @@ public class GameController : MonoBehaviour
         childManager.ClearLists();
         SceneManager.LoadScene("Level1Scene");
         DisableUI();
+        EnableLevelUI();
     }
 
     public void LoadMainMenu()
@@ -60,6 +65,20 @@ public class GameController : MonoBehaviour
         childManager.ClearLists();
         SceneManager.LoadScene("MainScene");
         EnableUI();
+    }
+
+    public void RestartCalling()
+    { 
+        StartCoroutine(RestartScene());
+    }
+
+    public IEnumerator RestartScene()
+    { 
+        isRestarting = true;
+        yield return new WaitForSeconds(restartDelay);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        childManager.ClearLists();
+        isRestarting = false;
     }
 
     public void LevelSelect()
@@ -96,12 +115,19 @@ public class GameController : MonoBehaviour
     {
         mainMenuPanel.DOAnchorPos(enabledLocation, uiMoveSpeed);
         levelSelectPanel.DOAnchorPos(disabledLocation, uiMoveSpeed);
+        LevelButtons.DOAnchorPos(disabledLocation, uiMoveSpeed);
     }
 
     public void DisableUI()
     {
         mainMenuPanel.DOAnchorPos(disabledLocation, uiMoveSpeed);
         levelSelectPanel.DOAnchorPos(disabledLocation, uiMoveSpeed);
+        LevelButtons.DOAnchorPos(disabledLocation, uiMoveSpeed);
+    }
+
+    public void EnableLevelUI()
+    {
+        LevelButtons.DOAnchorPos(enabledLocation, uiMoveSpeed);
     }
 
 }

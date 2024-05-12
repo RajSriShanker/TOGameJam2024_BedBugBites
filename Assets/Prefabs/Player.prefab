@@ -245,7 +245,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   knockBackForce: 100
-  knockBackTime: 1
+  knockBackTime: 0.125
   isKnockBacked: 0
 --- !u!114 &3719107888773574346
 MonoBehaviour:

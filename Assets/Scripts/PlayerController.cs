@@ -1,6 +1,8 @@
 using BarthaSzabolcs.Tutorial_SpriteFlash;
+using DG.Tweening.Core.Easing;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,26 +20,48 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isKnockBacked;
     private Transform enemyKnockDirection;
 
-    private Collider2D playerCollider;
     private Rigidbody2D playerRB;
 
     SimpleFlash simpleFlash;
     SoundController soundController;
+    Animator playerAnimator;
+    GameController gameManager;
 
     void Start()
     {
         soundController = GameObject.Find("Sound Manager").GetComponent<SoundController>();
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameController>();
 
         localScale = transform.localScale;
         playerRB = GetComponent<Rigidbody2D>();
-        playerCollider = GetComponent<Collider2D>();
         simpleFlash = GetComponent<SimpleFlash>();
+        playerAnimator = GetComponent<Animator>();
+
+        playerAnimator.SetBool("isRestarted", false);
     }
 
     void Update()
     {
         Move();
         Jump();
+
+        if (playerRB.velocity.y < 0)
+        {
+            playerAnimator.SetBool("isFalling", true);
+        }
+        else
+        {
+            playerAnimator.SetBool("isFalling", false);
+        }
+
+        if (gameManager.isRestarting)
+        {
+            Death();
+        }
+        else
+        {
+            playerAnimator.SetBool("isRestarted", false);
+        }
     }
 
     void FixedUpdate()
@@ -57,6 +81,7 @@ public class PlayerController : MonoBehaviour
         {
             playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
             soundController.PlayJumpAudio();
+            playerAnimator.SetBool("IsJumping", true);
         }
     }
 
@@ -74,6 +99,7 @@ public class PlayerController : MonoBehaviour
 
     bool isGrounded()
     { 
+        playerAnimator.SetBool("IsJumping", false);
         return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
     }
 
@@ -88,8 +114,10 @@ public class PlayerController : MonoBehaviour
         Vector2 direction = (transform.position - enemyKnockDirection.position).normalized;
         playerRB.AddForce(direction * knockBackForce, ForceMode2D.Impulse);
         simpleFlash.Flash();
+        playerAnimator.SetBool("isHurt", true);
         yield return new WaitForSeconds(knockBackTime);
         isKnockBacked = false;
+        playerAnimator.SetBool("isHurt", false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -99,6 +127,13 @@ public class PlayerController : MonoBehaviour
             enemyKnockDirection = collision.transform;
             StartCoroutine(KnockBack());
         }
+    }
+
+
+    public void Death()
+    {
+        playerRB.constraints = RigidbodyConstraints2D.FreezeAll;
+        playerAnimator.SetBool("isRestarted", true);
     }
 
 }
