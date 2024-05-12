@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     [SerializeField] float uiMoveSpeed = 0.5f;
 
     ChildManager childManager;
+    SoundController soundController;
 
  
     private void Awake()
@@ -37,6 +38,9 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         childManager = GameObject.Find("Child Manager").GetComponent<ChildManager>();
+        soundController = GameObject.Find("Sound Manager").GetComponent<SoundController>();
+
+        soundController.PlayBackgroundMusic();
 
         mainMenuPanel.anchoredPosition = enabledLocation;
         levelSelectPanel.anchoredPosition = disabledLocation;

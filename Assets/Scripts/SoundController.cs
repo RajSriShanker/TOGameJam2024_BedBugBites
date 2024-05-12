@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class SoundController : MonoBehaviour
 {
+    public AudioSource[] jumpAudio;
+    public AudioSource[] walkAudio;
+
+    public AudioSource backgroundMusic;
+
+    public AudioSource shootAudio;
+
+    public AudioSource loadAudio;
+
+    public AudioSource winAudio;
+
     private void Awake()
     {
         int numberOfSoundControllers = FindObjectsOfType<GameController>().Length;
@@ -27,5 +38,37 @@ public class SoundController : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void PlayBackgroundMusic()
+    {
+        backgroundMusic.Play();
+    }
+
+    public void PlayWinAudio()
+    {
+        winAudio.Play();
+    }
+
+    public void PlayShootAudio()
+    {
+        shootAudio.Play();
+    }
+
+    public void PlayLoadAudio()
+    {
+        loadAudio.Play();
+    }
+
+    public void PlayWalkAudio()
+    {
+        int randomIndex = Random.Range(0, walkAudio.Length);
+        walkAudio[randomIndex].Play();
+    }
+
+    public void PlayJumpAudio()
+    {
+        int randomIndex = Random.Range(0, jumpAudio.Length);
+        jumpAudio[randomIndex].Play();
     }
 }

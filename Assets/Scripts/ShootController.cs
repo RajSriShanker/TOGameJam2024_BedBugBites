@@ -11,11 +11,13 @@ public class ShootController : MonoBehaviour
     public GameObject projectile;
 
     ChildManager childManager;
+    SoundController soundController;
 
     // Start is called before the first frame update
     void Start()
     {
         childManager = GameObject.Find("Child Manager").GetComponent<ChildManager>();
+        soundController = GameObject.Find("Sound Manager").GetComponent<SoundController>();
     }
 
     // Update is called once per frame
@@ -45,6 +47,7 @@ public class ShootController : MonoBehaviour
 
         if (ammoCount > 0)
         {
+            soundController.PlayShootAudio();
             Instantiate(projectile, shootLocation.position, shootLocation.rotation);
         }
     }

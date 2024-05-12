@@ -12,10 +12,13 @@ public class ProjectileController : MonoBehaviour
 
     Transform deathLocation;
 
+    SoundController soundController;
+
     // Start is called before the first frame update
     void Start()
     {
         childManager = GameObject.Find("Child Manager").GetComponent<ChildManager>();
+        soundController = GameObject.Find("Sound Manager").GetComponent<SoundController>();
         deathLocation = GameObject.Find("Death Location").transform;
 
         projectileRB = GetComponent<Rigidbody2D>();
@@ -52,11 +55,13 @@ public class ProjectileController : MonoBehaviour
         {
             projectileRB.velocity = -projectileRB.velocity;
             FlipSprite();
+            soundController.PlayJumpAudio();
         }
     }
 
     void DisableProjectile()
     {
+        soundController.PlayLoadAudio();
         transform.position = deathLocation.position;
         projectileRB.velocity = Vector2.zero;
         gameObject.SetActive(false);

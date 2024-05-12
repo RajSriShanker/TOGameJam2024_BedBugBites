@@ -22,9 +22,12 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D playerRB;
 
     SimpleFlash simpleFlash;
+    SoundController soundController;
 
     void Start()
     {
+        soundController = GameObject.Find("Sound Manager").GetComponent<SoundController>();
+
         localScale = transform.localScale;
         playerRB = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<Collider2D>();
@@ -53,6 +56,7 @@ public class PlayerController : MonoBehaviour
         if (isGrounded() && Input.GetKeyDown(KeyCode.Space))
         {
             playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
+            soundController.PlayJumpAudio();
         }
     }
 
