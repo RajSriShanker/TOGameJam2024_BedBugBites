@@ -8,7 +8,15 @@ public class ChildManager : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        int numberOfChildManager = FindObjectsOfType<GameController>().Length;
+        if (numberOfChildManager > 1)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     // Start is called before the first frame update
@@ -36,5 +44,11 @@ public class ChildManager : MonoBehaviour
             numberOfProjectileChildren.Add(numberOfChildren[0]);
             numberOfChildren.RemoveAt(0);
         }
+    }
+
+    public void ClearLists()
+    { 
+        numberOfChildren.Clear();
+        numberOfProjectileChildren.Clear();
     }
 }

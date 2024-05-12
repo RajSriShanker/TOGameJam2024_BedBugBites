@@ -4,7 +4,6 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -19,22 +18,44 @@ public class GameController : MonoBehaviour
 
     [SerializeField] float uiMoveSpeed = 0.5f;
 
+    ChildManager childManager;
+
+ 
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        int numberOfGameControllers = FindObjectsOfType<GameController>().Length;
+        if (numberOfGameControllers > 1)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     private void Start()
     {
+        childManager = GameObject.Find("Child Manager").GetComponent<ChildManager>();
+
         mainMenuPanel.anchoredPosition = enabledLocation;
         levelSelectPanel.anchoredPosition = disabledLocation;
-        startButton.onClick.AddListener(StartGame);
+        startButton.onClick.AddListener(LoadLevel1);
         levelSelectButton.onClick.AddListener(LevelSelect);
     }
 
-    public void StartGame()
+    public void LoadLevel1()
     {
+        childManager.ClearLists();
         SceneManager.LoadScene("Level1Scene");
+        DisableUI();
+    }
+
+    public void LoadMainMenu()
+    {
+        childManager.ClearLists();
+        SceneManager.LoadScene("MainScene");
+        EnableUI();
     }
 
     public void LevelSelect()
@@ -50,4 +71,33 @@ public class GameController : MonoBehaviour
             levelSelectPanel.DOAnchorPos(disabledLocation, uiMoveSpeed);
         }
     }
+
+    public void LoadScene(string sceneName)
+    {
+        if (sceneName == "MainScene")
+        {
+            childManager.ClearLists();
+            LoadMainMenu();
+            EnableUI();
+        }
+        else
+        {
+            SceneManager.LoadScene(sceneName);
+            childManager.ClearLists();
+            DisableUI();
+        }
+    }
+
+    public void EnableUI()
+    {
+        mainMenuPanel.DOAnchorPos(enabledLocation, uiMoveSpeed);
+        levelSelectPanel.DOAnchorPos(disabledLocation, uiMoveSpeed);
+    }
+
+    public void DisableUI()
+    {
+        mainMenuPanel.DOAnchorPos(disabledLocation, uiMoveSpeed);
+        levelSelectPanel.DOAnchorPos(disabledLocation, uiMoveSpeed);
+    }
+
 }
