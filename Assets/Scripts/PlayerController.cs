@@ -110,6 +110,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator KnockBack()
     {
+        soundController.PlayDazedAudio();
         isKnockBacked = true;
         Vector2 direction = (transform.position - enemyKnockDirection.position).normalized;
         playerRB.AddForce(direction * knockBackForce, ForceMode2D.Impulse);
@@ -127,6 +128,19 @@ public class PlayerController : MonoBehaviour
             enemyKnockDirection = collision.transform;
             StartCoroutine(KnockBack());
         }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            isBurned();
+        }
+    }
+
+    public void isBurned()
+    { 
+        gameManager.RestartCalling();
     }
 
 

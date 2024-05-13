@@ -6,19 +6,6 @@ public class ChildManager : MonoBehaviour
     public List<GameObject> numberOfChildren = new List<GameObject>();
     public List<GameObject> numberOfProjectileChildren = new List<GameObject>();
 
-    private void Awake()
-    {
-        int numberOfChildManager = FindObjectsOfType<GameController>().Length;
-        if (numberOfChildManager > 1)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            DontDestroyOnLoad(gameObject);
-        }
-    }
-
     // Start is called before the first frame update
     void Start()
     {

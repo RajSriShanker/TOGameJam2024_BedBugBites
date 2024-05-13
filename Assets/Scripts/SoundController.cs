@@ -15,6 +15,10 @@ public class SoundController : MonoBehaviour
 
     public AudioSource winAudio;
 
+    public AudioSource bounceAudio;
+
+    public AudioSource dazedAudio;
+
     private void Awake()
     {
         int numberOfSoundControllers = FindObjectsOfType<GameController>().Length;
@@ -50,6 +54,11 @@ public class SoundController : MonoBehaviour
         winAudio.Play();
     }
 
+    public void StopWinAudio()
+    {
+        winAudio.Stop();
+    }
+
     public void PlayShootAudio()
     {
         shootAudio.Play();
@@ -58,6 +67,16 @@ public class SoundController : MonoBehaviour
     public void PlayLoadAudio()
     {
         loadAudio.Play();
+    }
+
+    public void PlayBounceAudio()
+    { 
+
+    }
+
+    public void PlayDazedAudio()
+    { 
+    
     }
 
     public void PlayWalkAudio()

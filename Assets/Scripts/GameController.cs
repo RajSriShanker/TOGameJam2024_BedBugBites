@@ -108,6 +108,7 @@ public class GameController : MonoBehaviour
             SceneManager.LoadScene(sceneName);
             childManager.ClearLists();
             DisableUI();
+            EnableLevelUI();
         }
     }
 

@@ -20,6 +20,7 @@ public class ChildController : MonoBehaviour
 
     SpriteRenderer spriteRenderer;
     Collider2D collider2D;
+    Animator childAnimator;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,7 @@ public class ChildController : MonoBehaviour
         childManager = GameObject.Find("Child Manager").GetComponent<ChildManager>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         collider2D = GetComponent<Collider2D>();
+        childAnimator = GetComponent<Animator>();
         localScale = transform.localScale;
         isUsedAsProjectile = false;
         isPickedUp = false;
@@ -36,7 +38,25 @@ public class ChildController : MonoBehaviour
 
     void Update()
     {
+        //if the child is moving left or right, set animator bool to true
+        if (transform.position.x > transform.position.x + 0.1f || transform.position.x < transform.position.x - 0.1f)
+        {
+            childAnimator.SetBool("isMoving", true);
+        }
+        else
+        {
+            childAnimator.SetBool("isMoving", false);
+        }
 
+        //if the child is moving upwards, set animator bool to true
+        if (transform.position.y > transform.position.y + 0.1f || transform.position.y < transform.position.y - 0.1f)
+        {
+            childAnimator.SetBool("isJumping", true);
+        }
+        else
+        {
+            childAnimator.SetBool("isJumping", false);
+        }
     }
 
     private void LateUpdate()
